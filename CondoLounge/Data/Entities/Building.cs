@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
 
-        public Condo[] Condos { get; set; }
+        public List<Condo> Condos { get; set; } = new List<Condo>();
     }
 }

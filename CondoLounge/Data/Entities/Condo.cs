@@ -6,13 +6,12 @@ namespace CondoLounge.Data.Entities
 {
     public class Condo
     {
-        public int BuildingId { get; set; }
+        public int Id { get; set; }
 
-        [Key]
         public int CondoNumber { get; set; }
 
         public string Location { get; set; }
 
-        public ApplicationUser[] Users { get; set; }
+        public List<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
     }
 }

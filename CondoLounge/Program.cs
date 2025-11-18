@@ -19,11 +19,26 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 // Uses the connection string.
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
+builder.Services.AddTransient<CondoSeeder>();
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRepositoryProvider, RepositoryProvider>();
 
 
 var app = builder.Build();
+
+await RunSeeding(app);
+
+async Task RunSeeding(WebApplication app)
+{
+    var scopeFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (var scope = scopeFactory.CreateScope())
+    {
+        var seeder = scope.ServiceProvider.GetService<CondoSeeder>();
+        await seeder.Seed();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
