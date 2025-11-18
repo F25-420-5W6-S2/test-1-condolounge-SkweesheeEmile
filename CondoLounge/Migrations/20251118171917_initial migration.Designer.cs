@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CondoLounge.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251118170446_initial migration")]
+    [Migration("20251118171917_initial migration")]
     partial class initialmigration
     {
         /// <inheritdoc />
@@ -24,6 +24,21 @@ namespace CondoLounge.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ApplicationUserCondo", b =>
+                {
+                    b.Property<int>("CondosCondoNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CondosCondoNumber", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("ApplicationUserCondo");
+                });
 
             modelBuilder.Entity("CondoLounge.Data.Entities.ApplicationUser", b =>
                 {
@@ -52,6 +67,10 @@ namespace CondoLounge.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -114,7 +133,7 @@ namespace CondoLounge.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CondoNumber"));
 
-                    b.Property<int?>("BuildingId")
+                    b.Property<int>("BuildingId")
                         .HasColumnType("int");
 
                     b.Property<string>("Location")
@@ -126,38 +145,6 @@ namespace CondoLounge.Migrations
                     b.HasIndex("BuildingId");
 
                     b.ToTable("Condos");
-                });
-
-            modelBuilder.Entity("CondoLounge.Data.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("CondoUser", b =>
-                {
-                    b.Property<int>("CondosCondoNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CondosCondoNumber", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("CondoUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -293,14 +280,7 @@ namespace CondoLounge.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CondoLounge.Data.Entities.Condo", b =>
-                {
-                    b.HasOne("CondoLounge.Data.Entities.Building", null)
-                        .WithMany("Condos")
-                        .HasForeignKey("BuildingId");
-                });
-
-            modelBuilder.Entity("CondoUser", b =>
+            modelBuilder.Entity("ApplicationUserCondo", b =>
                 {
                     b.HasOne("CondoLounge.Data.Entities.Condo", null)
                         .WithMany()
@@ -308,9 +288,18 @@ namespace CondoLounge.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CondoLounge.Data.Entities.User", null)
+                    b.HasOne("CondoLounge.Data.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CondoLounge.Data.Entities.Condo", b =>
+                {
+                    b.HasOne("CondoLounge.Data.Entities.Building", null)
+                        .WithMany("Condos")
+                        .HasForeignKey("BuildingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

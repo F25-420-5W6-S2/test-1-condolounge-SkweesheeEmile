@@ -6,7 +6,6 @@ namespace CondoLounge.Data.Entities
 {
     public class Condo
     {
-        [ForeignKey("BuildingId")]
         public int BuildingId { get; set; }
 
         [Key]
@@ -14,6 +13,6 @@ namespace CondoLounge.Data.Entities
 
         public string Location { get; set; }
 
-        public User[] Users { get; set; }
+        public ApplicationUser[] Users { get; set; }
     }
 }
