@@ -2,7 +2,7 @@
 
 namespace CondoLounge.Data.Interfaces
 {
-    public interface ICondoBuildingRepository
+    public interface ICondoBuildingRepository: ICondoLoungeGenericRepository<Building>
     {
         List<ApplicationUser> GetUsersForBuilding(int id);
 
