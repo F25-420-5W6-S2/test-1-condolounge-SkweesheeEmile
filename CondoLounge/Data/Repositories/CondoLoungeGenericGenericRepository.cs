@@ -18,7 +18,7 @@ namespace CondoLounge.Data.Repositories
         }
         public void Add(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Add(entity);
         }
 
         public void Delete(T entity)

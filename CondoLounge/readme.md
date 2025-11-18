@@ -11,7 +11,7 @@ A condo will have: CondoNumber, location/ address.
 To do:
 1. Make the application runnable. (2%)
 2. Add the Identity middleware (2%)
-2. Create the entities for User, Building, Condo (2%)
+2. Create the entities for User, Building, Condo (2%) DONE
 3. Create the specific repos for the entities (2%)
 4. Seed some data with an Admin user that is part of an initial <br/>
    Building, Condo and the Default and Admin roles available. (3%)
